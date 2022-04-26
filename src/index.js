@@ -1,5 +1,3 @@
-import first from './modules/one'
-import second from './modules/two'
+import timer from './modules/timer'
 
-first()
-second()
+timer('31 april 2022')
