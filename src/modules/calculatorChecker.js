@@ -1,4 +1,4 @@
-const calculator = () => {
+const calculatorChecker = () => {
     const calcSquareMeters = document.querySelector('.calc-square')
     const calcCount = document.querySelector('.calc-count')
     const calcDay = document.querySelector('.calc-day')
@@ -11,4 +11,4 @@ const calculator = () => {
     calcDay.addEventListener('input', numberEnable)
 }
 
-export default calculator
+export default calculatorChecker

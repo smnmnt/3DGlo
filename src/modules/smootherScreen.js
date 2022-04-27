@@ -1,4 +1,4 @@
-const smoother = () => {
+const smootherScreen = () => {
     const downBtn = document.querySelector('[href="#service-block"]')
     const serviceBlock = document.getElementById('service-block')
 
@@ -8,4 +8,4 @@ const smoother = () => {
     })
 }
 
-export default smoother
+export default smootherScreen

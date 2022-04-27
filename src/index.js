@@ -1,13 +1,19 @@
 import timer from './modules/timer'
 import menu from './modules/menu'
 import popup from './modules/popup'
-import smoother from './modules/smoother'
+import slider from './modules/slider'
 import form from './modules/form'
-import calculator from './modules/calculator'
+import calculatorChecker from './modules/calculatorChecker'
+import tabs from './modules/tabs'
+import calculatorCounter from './calculatorCounter'
+import smootherScreen from './modules/smootherScreen'
 
 timer('31 april 2022')
 menu()
 popup()
-smoother()
+slider()
+smootherScreen()
 form()
-calculator()
+calculatorChecker()
+calculatorCounter(100)
+tabs()
