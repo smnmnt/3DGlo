@@ -7,6 +7,7 @@ import calculatorChecker from './modules/calculatorChecker'
 import tabs from './modules/tabs'
 import calculatorCounter from './modules/calculatorCounter'
 import smootherScreen from './modules/smootherScreen'
+import formSending from './modules/formSending'
 
 timer('31 april 2022')
 menu()
@@ -17,3 +18,4 @@ form()
 calculatorChecker()
 calculatorCounter(100)
 tabs()
+formSending()
