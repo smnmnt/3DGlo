@@ -1,4 +1,4 @@
-import { animate } from './animate'
+import { animate } from './helpers'
 
 const popup = () => {
     const popup = document.querySelector('.popup')
