@@ -18,4 +18,30 @@ form()
 calculatorChecker()
 calculatorCounter(100)
 tabs()
-formSending()
+formSending({
+    formId: 'form1', 
+    someElem: [
+        {
+            type: 'block',
+            id: 'total'
+        }
+    ] 
+})
+formSending({
+    formId: 'form2', 
+    someElem: [
+        {
+            type: 'block',
+            id: 'total'
+        }
+    ] 
+})
+formSending({
+    formId: 'form3', 
+    someElem: [
+        {
+            type: 'block',
+            id: 'total'
+        }
+    ] 
+})

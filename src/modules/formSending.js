@@ -1,44 +1,108 @@
-const formSending = () => {
-    const heroForm = document.querySelector('#form1')
-    const heroFormName = document.querySelector('#form1-name')
-    const heroFormEmail = document.querySelector('#form1-email')
-    const heroFormTel = document.querySelector('#form1-phone')
-    const formMessage = document.querySelector('#form2-message')
-
-    const sendData = (url, data) => {
-        return fetch(url, {
-            method: 'POST',
-            body: data,
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        }).then(response => response.json())
-    }
+const formSending = ({ formId, someElem = [] }) => {
+        const form = document.getElementById(formId)
+        const statusBlock = document.createElement('div')
     
-    const sendedform = (e) => {
-        e.preventDefault()
-
-       const user = {
-           name: heroFormName.value,
-           email: heroFormEmail.value,
-           tel: heroFormTel.value,
-           message: formMessage.value
-       }
-
-       sendData('https://jsonplaceholder.typicode.com/posts', JSON.stringify(user))
-            .then(data => {
-                console.log(data);
+        const inputPhone = document.querySelectorAll('[name="user_phone"]')
+        const inputName = document.querySelectorAll('[name="user_name"]')
+        const inputUserMessage = document.querySelectorAll('[name="user_message"]')
+    
+        const loadingText = 'Загрузка'
+        const alertText = 'Что-то пошло не так'
+        const succeedText = 'Успешно'
+    
+        statusBlock.classList.add('white-text')
+    
+        const validate = (formElements) => {
+            let success = true
+            console.log(formElements);
+            formElements.forEach(inputName => {
+                if (inputName.classList.contains('form-name')) {
+                    if (inputName.value.match(/[^а-яА-Я\-\s]/g)) {
+                        success = false
+                    }
+                }
             })
+            formElements.forEach(inputPhone => {
+                if (inputPhone.classList.contains('form-phone')) {
+                    if (inputPhone.value.match(/[^0-9\(\)\-]/g)) {
+                        success = false
+                    }
+                } 
+            })
+            formElements.forEach(inputUserMessage => {
+                if (inputUserMessage.classList.contains('mess')) {
+                    if (inputUserMessage.value.match(/[^а-яА-Я\-\s]/g)) {
+                        success = false
+                    }
+                } 
+            })
+            return success
+        }
+    
+        const sendData = (data) => {
+            return fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(res => res.json())
+        }
+        
+        const submitForm = () => {
+            const formElements = form.querySelectorAll('input')
+            const formData = new FormData(form)
+            const formBody = {}
+    
+            statusBlock.textContent = loadingText
+
+            form.append(statusBlock)
+    
+            formData.forEach((val, key) => {
+                formBody[key] = val
+            })
+    
+            someElem.forEach(elem => {
+                const element = document.getElementById(elem.id)
+                if (elem.type === 'block') {
+                    formBody[elem.id] = element.textContent
+                } else if (elem.type === 'input') {
+                    formBody[elem.id] = element.value
+                }
+            })
+    
+            if (validate(formElements)) {
+                sendData(formBody)
+                    .then(data => {
+                        statusBlock.textContent = succeedText
+    
+                        formElements.forEach(input => {
+                            input.value = ''
+                        })
+                    })
+                    .catch(error => {
+                        statusBlock.textContent = alertText
+                    })
+                
+            } else {
+                alert('Данные не верны')
+                statusBlock.textContent = alertText
+            }
+        }
+    
+        try {
+            if (!form) {
+                throw new Error ('Отсутствует форма')
+            }
+    
+            form.addEventListener('submit', (event) => {
+
+                event.preventDefault()
+                
+                submitForm()
+            })
+        } catch (error) {
+            console.log(error.message);
+        }
     }
-
-    const getData = () => {
-        fetch('https://jsonplaceholder.typicode.com/posts')
-            .then((response) => response.json())
-            .then((data) => console.log(data));
-    }
-
-    getData()
-    heroForm.addEventListener('submit', sendedform)
-}
-
 export default formSending
