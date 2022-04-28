@@ -1,3 +1,5 @@
+import { animate } from './animate'
+
 const calculatorCounter = (price = 100) => {
     
     const calcBlock = document.querySelector('.calc-block')
@@ -27,6 +29,15 @@ const calculatorCounter = (price = 100) => {
 
         if (calcType.value && calcSquare.value) {
             totalValue = price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue
+            animate({
+                duration: 1000,
+                timing(timeFraction) {
+                  return timeFraction;
+                },
+                draw(progress) {
+                    total.textContent = Math.round(totalValue * progress)
+                }
+              });
         } else {
             totalValue = 0
         }

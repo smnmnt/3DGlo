@@ -1,55 +1,42 @@
+import { animate } from './animate'
+
 const popup = () => {
     const popup = document.querySelector('.popup')
-    const popupContent = document.querySelector('.popup-content')
     const buttons = document.querySelectorAll('.popup-btn')
-    const closeBtn = popup.querySelector('.popup-close')
-
-    let count = -38
-    let intervalId
-    popupContent.style.left = `${count}%`
-
+    // const content = document.querySelector('.popup-content')
+   
+    popup.style.display = 'block'
+    popup.style.transform = 'translateX(-100%)'
+    popup.style.background = `rgba(0,0,0,.0)`
     
-    const disableAnims = (count) => {           
-        popupContent.style.left = `${count}%`
-    }
-
-    const counterOpen = () => {
-        count += 4
-        disableAnims(count)
-        if (count >= 40) {
-            clearInterval(intervalId)
-        }
-    }
-    const counterClose = () => {
-        count -= 4
-        disableAnims(count)
-        if (count <= -38) {
-            clearInterval(intervalId)
-            popup.style.display = ''
-            count = -38
-        }
-    }
-
-
     buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                popupContent.style.left = ``
-                popup.style.display = 'block'
-            } else {
-                popup.style.display = 'block'
-                intervalId = setInterval(counterOpen, 10)
-            }
+        btn.addEventListener('click', () =>{
+            animate({
+                duration: 1000,
+                timing(timeFraction) {
+                  return timeFraction;
+                },
+                draw(progress) {
+                    popup.style.transform = `translateX(${100 * (progress-1)}%)`
+                    popup.style.background = `rgba(0,0,0,.5)`
+                }
+              });
         })
     })
-    closeBtn.addEventListener('click' , () => {
-        if (window.innerWidth > 768) {
-            intervalId = setInterval(counterClose, 10)
-        } else {
-            popup.style.display = ''
+ 
+    popup.addEventListener('click', (e) => {
+        if (!e.target.closest('.popup-content') || e.target.classList.contains('popup-close')) {
+            animate({
+                duration: 1000,
+                timing(timeFraction) {
+                  return timeFraction;
+                },
+                draw(progress) {
+                    popup.style.transform = `translateX(${-100 * progress}%)`
+                }
+              });
         }
     })
-
 }
 
 export default popup
